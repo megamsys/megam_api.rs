@@ -1,19 +1,19 @@
-#![feature(fs, fs_ext, path_ext, fs_time, fs_walk)]
+//#![feature(fs, fs_ext, path_ext, fs_time, fs_walk)]
 
 extern crate rustc_serialize;
-extern crate meg;
-extern crate flate2;
-extern crate git2;
+extern crate megam_api;
+//extern crate flate2;
+//extern crate git2;
 extern crate hamcrest;
-extern crate tar;
-extern crate term;
-extern crate url;
-extern crate tempdir;
+//extern crate tar;
+//extern crate term;
+//extern crate url;
+//extern crate tempdir;
 
 #[macro_use]
 extern crate log;
 
-mod support;
+//mod support;
 macro_rules! test {
     ($name:ident $expr:expr) => (
         #[test]
@@ -25,4 +25,5 @@ macro_rules! test {
     )
 }
 
-mod test_cargo_version;;
+mod test_accounts;
+mod test_sshkeys;

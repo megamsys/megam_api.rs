@@ -1,6 +1,6 @@
 [package]
 name = "megam_api"
-version = "0.1.0"
+version = "0.1.3"
 authors = ["Raj thilak <rajthilak@megam.io>,Kishorekumar Neelamegam <nkishore@megam.io>"]
 description = """
 A rust lang api to talk to https://www.megam.io.

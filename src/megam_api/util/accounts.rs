@@ -1,7 +1,7 @@
-use std::result;
+//use std::result;
 //use rustc_serialize::json;
 
-pub type Result<Success, Error> = result::Result<Success, Error>;
+//pub type Result<Success, Error> = result::Result<Success, Error>;
 
 #[derive(Debug)]
 pub enum Success { Success }
@@ -26,7 +26,7 @@ pub struct Account {
 
 impl Account {
 
-	pub fn create(self) -> Result<Success, Error> {
+	pub fn create(&self) -> Result<Success, Error> {
       //let CREATE = "/accounts/content";
 		println!("format {} arguments", "hai");
 					// you can access struct values using self.first_name

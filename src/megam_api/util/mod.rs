@@ -1,7 +1,7 @@
-use std::result;
+//use std::result;
 //use rustc_serialize::json;
 
-pub type Result<Success, Error> = result::Result<Success, Error>;
+//pub type Result<Success, Error> = result::Result<Success, Error>;
 
 #[derive(Debug)]
 pub enum Success { Success }

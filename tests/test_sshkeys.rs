@@ -1,4 +1,4 @@
-use megam_api::util::sshkeys::SSHKeys;
+use megam_api::util::sshkeys::SSHKey;
 use megam_api::util::sshkeys::Success;
 use hamcrest::assert_that;
 

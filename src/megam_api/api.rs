@@ -1,15 +1,10 @@
-mod Api {
-
-	extern crate curl;
-	extern crate rustc_serialize;
-
-	use self::curl::http;
-	use self::curl::http::handle::Method::{Post, Put, Get, Delete};
-	use self::curl::http::handle::{Method, Request};
-	use self::rustc_serialize::json;
-	use std::io::prelude::*;
-	use std::io::{self, Cursor};
-	use std::result;
+//use curl::http;
+//use curl::http::handle::Method::{Post, Put, Get, Delete};
+//use curl::http::handle::{Method, Request};
+//use rustc_serialize::json;
+//use std::io::prelude::*;
+//use std::io::{self, Cursor};
+//use std::result;
 
 
 //	const API_MEGAM_IO: String = "api.megam.io";
@@ -18,27 +13,23 @@ mod Api {
 	//const X_Megam_DATE: String = "X-Megam-DATE".to_string();
 	//const X_Megam_HMAC: String = "X-Megam-HMAC".to_string();
 
-	pub type Result<T> = result::Result<T, Error>;
+//pub type Result<T> = result::Result<T, Error>;
 
-	#[derive(PartialEq,Clone, Copy)]
-	pub enum Auth {
- 	   Authorized,
- 	   Unauthorized
-	}
+//#[derive(PartialEq, Clone, Copy)]
+//pub enum Auth {
+// 	   Authorized,
+ //	   Unauthorized
+//}
 
-	pub enum Error {
-	    Curl(curl::ErrCode),
-	    NotOkResponse(http::Response),
-	    NonUtf8Body,
-	    Api(Vec<String>),
-	    Unauthorized,
-	    TokenMissing,
-	    Io(io::Error),
-	}
+//pub enum SuccessResult { Success }
 
-	 struct ApiErrorList { errors: Vec<ApiError> }
-	 struct ApiError { detail: String }
-   struct R { ok: bool }
+//pub enum Error {
+//	    NotOkResponse,	 
+//}
+
+//struct ApiErrorList { errors: Vec<ApiError> }
+//struct ApiError { detail: String }
+//struct R { ok: bool }
 
 	//pub fn create(path: String, data: &[u8]) -> Result<()> {        
 	//     let body = try!(req(path, Some(data), Post, Auth::Authorized));
@@ -46,13 +37,13 @@ mod Api {
 	//     Ok(())
 	//}	
 
- pub fn create(path: String, data: &[u8]) {        
-	     req(path, Some(data), Post, Auth::Authorized)
+//pub fn create(path: String, data: &[u8]) {        
+ //    req(path, Some(data), Post, Auth::Authorized)
 	    
-	}	
+//}	
 
-	fn req(path: String, body: Option<&[u8]>,
-						method: Method, authorized: Auth) {
+//fn req(path: String, body: Option<&[u8]>,
+		//				method: Method, authorized: Auth) {
         //   method: Method, authorized: Auth) -> Result<String> {
         //let mut req = Request::new(&mut http::Handle::new(), method)
 				//											.uri(format!("{}/{}{}", "api.megam.io", "/v2", path))
@@ -66,7 +57,7 @@ mod Api {
        //     None => {}
        // }
       //  handle(req.exec()) 
-	 }
+ //}
 
 	
 
@@ -87,4 +78,3 @@ mod Api {
     
    // Ok(body)
 	//}
-}

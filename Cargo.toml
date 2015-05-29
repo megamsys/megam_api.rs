@@ -1,10 +1,9 @@
-[project]
+[package]
 name = "megam_api"
 version = "0.1.0"
 authors = ["Raj thilak <rajthilak@megam.io>,Kishorekumar Neelamegam <nkishore@megam.io>"]
 description = """
 A rust lang api to talk to https://www.megam.io.
-An implementation using ruby can be found at https://github.com/megamsys/megam_api.git
 """
 
 documentation = "https://github.com/megamsys/megam_api.rs"
@@ -19,22 +18,19 @@ license = "Apache-2.0"
 
 [lib]
 name = "megam_api"
-path = "src/api/lib.rs"
+path = "src/megam_api/lib.rs"
 
 [dependencies]
-curl = "0.2.10"
 rustc-serialize = "0.3.14"
-glob = "0.2.10"
-time = "0.1.25"
+curl = "0.2.10"
 log = "0.3.1"
 env_logger = "0.3.1"
-term = "0.2.7"
 regex = "0.1.30"
 libc = "0.1.8"
 
 
-[dev-dependencies]
-tempdir = "0.3.4"
+#[dev-dependencies]
+#tempdir = "0.3.4"
 
 #[dependencies.hamcrest]
 #git = "https://github.com/carllerche/hamcrest-rust.git"

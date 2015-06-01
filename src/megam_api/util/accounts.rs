@@ -1,7 +1,5 @@
-//use std::result;
-//use rustc_serialize::json;
-
-//pub type Result<Success, Error> = result::Result<Success, Error>;
+use api::Api;
+use rustc_serialize::json;
 
 #[derive(Debug)]
 pub enum Success { Success }
@@ -11,27 +9,31 @@ pub enum Error {
 	    NotOkResponse,	    
 }
 
-#[derive(PartialEq, Clone)]
+#[derive(PartialEq, Clone, Debug, RustcEncodable)]
 pub struct Account {
-  	pub first_name							: String,
-  	pub last_name								: String,
-  	pub phone										: String,
-  	pub email										: String, 
-  	pub api_key									: String, 
-  	pub password								: String, 
-  	pub authority								: String, 
-  	pub password_reset_key			: String,
-  	pub password_reset_sent_at	: String,   
+  	pub first_name							: &'static str,
+  	pub last_name								: &'static str,
+  	pub phone										: &'static str,
+  	pub email										: &'static str, 
+  	pub api_key									: &'static str, 
+  	pub password								: &'static str, 
+  	pub authority								: &'static str, 
+  	pub password_reset_key			: &'static str,
+  	pub password_reset_sent_at	: &'static str,   
 }
 
 impl Account {
 
 	pub fn create(&self) -> Result<Success, Error> {
-      //let CREATE = "/accounts/content";
-		println!("format {} arguments", "hai");
-					// you can access struct values using self.first_name
-			//let body = json::encode(data).unwrap();
-		//	self.megam_api.create(CREATE, body.as_bytes())
+    let CREATE = "/accounts/content";
+		println!("Account create Entry...");					
+		println!("Account --------- {:?}", self);
+ 		self.talk();
+    
+    // you can access struct values using self.first_name
+		let body = json::encode(&self).unwrap();
+		self.post(CREATE, body.as_bytes());
+
 		if 1 == 1 {
    		return Ok(Success::Success);
   	} else {
@@ -39,7 +41,7 @@ impl Account {
   	}
 	}
 
-  pub fn failure() -> Result<Success, Error> {
+  pub fn failure(&self) -> Result<Success, Error> {
    	if 1 == 1 {
    		return Err(Error::NotOkResponse);
   	} else {
@@ -47,5 +49,20 @@ impl Account {
   	}
 	}
 
-}   
+}
 
+// Implement the `Api` trait for `Account`
+impl Api for Account {
+    // Replace `Self` with the implementor type: `Account`
+    fn new(email: &'static str, api_key: &'static str) -> Account {
+        Account { first_name: "", last_name: "", phone: "", email: email, api_key: api_key, password: "", authority: "", password_reset_key: "", password_reset_sent_at: "" }
+    }
+
+    fn email(&self) -> &'static str {
+        self.email
+    }
+
+    fn api_key(&self) -> &'static str {
+        self.api_key
+    }   
+}

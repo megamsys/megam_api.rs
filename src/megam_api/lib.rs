@@ -3,6 +3,8 @@
 
 extern crate rustc_serialize;
 extern crate curl;
+extern crate crypto;
+extern crate time;
 
 pub mod util;
 pub mod api;

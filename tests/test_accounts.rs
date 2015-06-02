@@ -18,13 +18,13 @@ fn create() {
     let mut a = Account::new();		
    
     //assign the values for struct Account
-    a.first_name = "raj";
-    a.phone = "97948698";
-		a.email = "c@b.com";
-		a.api_key = "firsttest";
+    a.first_name = "raj".to_string();
+    a.phone = "97948698".to_string();
+		a.email = "c@b.com".to_string();
+		a.api_key = "firsttest".to_string();
 
      match a.create(json::encode(&options).unwrap()) {
-        Ok(n) => trace!("result: Is OK: {:?}", n),
-        Err(FailOne) => trace!("result: Failed One: {:?}", FailOne"),
+        Ok(n) => println!("result: Is OK: {:?}", n),
+        Err(FailOne) => println!("result: Failed One: {:?}", FailOne),
     }
 }

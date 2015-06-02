@@ -4,6 +4,7 @@ use curl::http::handle::Method::{Post, Get};
 use curl::http::handle::{Method, Request};
 use rustc_serialize::json;
 use std::result;
+use std::{str, fmt};
 use rustc_serialize::base64::{STANDARD, ToBase64};
 use crypto::digest::Digest;
 use crypto::md5::Md5;
@@ -12,29 +13,58 @@ use crypto::hmac::Hmac;
 use crypto::mac::{Mac};
 use time;
 use rustc_serialize::hex::ToHex;
+use std::error::Error;
 
-//	const API_MEGAM_IO: String = "api.megam.io";
-	//static API_VERSION2: String = "/v2";
 
-	//const X_Megam_DATE: String = "X-Megam-DATE".to_string();
-	//const X_Megam_HMAC: String = "X-Megam-HMAC".to_string();
+#[derive(Debug)]
+pub struct MegError {
+    pub code: u32,
+    pub msg: String,
+    pub more: String,
+}
 
-//pub type Result<T> = result::Result<T, Error>;
+impl MegError {
+    pub fn new(err: MegResponse) -> MegError {
+        MegError { code: err.code, msg: err.msg, more: err.more }
+    }
+
+    pub fn enew() -> MegError {
+        MegError { code: 0, msg: "".to_string(), more: "".to_string() }
+    }
+}
+
+impl Error for MegError {
+    fn description(&self) -> &str { self.description() }
+    fn cause(&self) -> Option<&Error> { self.cause() }
+}
+
+impl fmt::Display for MegError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        fmt::Display::fmt(&self, f)
+    }
+}
+
+#[derive(Debug)]
+pub enum CurlError {
+		  Curl(curl::ErrCode),
+	    NotOkResponse,	
+			Unauthorized, 
+}
+
+#[derive(RustcEncodable, Debug, RustcDecodable)]
+pub struct MegResponse {
+ pub code: u32,
+ pub msg_type: String,
+ pub msg: String,
+ pub more: String,
+ pub json_claz: String,
+ pub links: String,
+}
 
 #[derive(PartialEq, Clone, Copy)]
 pub enum Auth {
  	   Authorized,
  	   Unauthorized
-}
-
-#[derive(Debug)]
-pub enum Success { Success }
-
-#[derive(Debug)]
-pub enum Error {
-			Curl(curl::ErrCode),
-	    NotOkResponse,	
-			Unauthorized, 
 }
 
 #[derive(RustcEncodable, Debug, RustcDecodable)]
@@ -51,15 +81,15 @@ pub trait Api {
    
 	   // These definitions can access other methods declared in the same
      // trait
-    fn post(&self, path: String, data: &[u8], options: String) -> Result<String, Error> {        
+    fn post(&self, path: String, data: &[u8], options: String) -> Result<String, MegError> {        
      self.req(path, Some(data), Post, options)
     }	    
 
-    fn get(&self, path: String, options: String) -> Result<String, Error> {			
+    fn get(&self, path: String, options: String) -> Result<String, MegError> {			
 			self.req(path, None, Get, options)
 		}
 
-		fn req(&self, path: String, body: Option<&[u8]>, method: Method, options: String) -> Result<String, Error>  {
+		fn req(&self, path: String, body: Option<&[u8]>, method: Method, options: String) -> Result<String, MegError>  {
        
 				let api_options = json::decode::<Options>(&options).unwrap();
 
@@ -100,19 +130,26 @@ pub trait Api {
 
 }
 
-fn handle(response: result::Result<http::Response, curl::ErrCode>) -> Result<String, Error> {
-    let response = try!(response.map_err(Error::Curl));
-    println!("{}", response);
-    match response.get_code() {
-        0 => {} // file upload url sometimes
-        200  => {}
-				201  => {}
-        403 => return Err(Error::Unauthorized),
-        _ => return Err(Error::NotOkResponse)
-    }
 
-    Ok(format!("{}", "hai"))
-}
+
+fn handle(response: result::Result<http::Response, curl::ErrCode>) -> Result<String, MegError> {
+   match response {
+    result::Result::Ok(res) => {
+   			 println!("{}", res);
+    			match res.get_code() {
+        		200  => return Ok(str::from_utf8(res.get_body()).unwrap().to_string()),
+						201  => return Ok(str::from_utf8(res.get_body()).unwrap().to_string()),
+        		403  => return Err(MegError::new(json::decode::<MegResponse>(&str::from_utf8(res.get_body()).unwrap()).unwrap())),
+        		_    => return Err(MegError::new(json::decode::<MegResponse>(&str::from_utf8(res.get_body()).unwrap()).unwrap())),
+    			}
+  	 },
+   result::Result::Err(err) => {
+       println!("eror");
+       return Err(MegError::enew());
+    },
+ 	}
+	}
+   
 
 	
 

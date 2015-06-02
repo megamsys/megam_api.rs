@@ -20,7 +20,7 @@ fn list() {
 		println!("{:?}", a);
    
     match a.list(json::encode(&options).unwrap()) {
-        Ok(n) => trace!("result: Is OK: {:?}", n),
-        Err(FailOne) => trace!("result: Failed One: {:?}", FailOne),
+        Ok(n) => println!("result: Is OK: {:?}", n),
+        Err(FailOne) => println!("result: Failed One: {:?}", FailOne),
     }
 }

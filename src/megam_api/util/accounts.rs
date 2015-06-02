@@ -1,39 +1,31 @@
 use api::Api;
-use api::Success;
-use api::Error;
+use api::MegError;
+use api::MegResponse;
 use rustc_serialize::json;
 
-#[derive(PartialEq, Clone, Debug, RustcEncodable)]
+#[derive(PartialEq, Clone, Debug, RustcEncodable, RustcDecodable)]
 pub struct Account {
-  	pub first_name							: &'static str,
-  	pub last_name								: &'static str,
-  	pub phone										: &'static str,
-  	pub email										: &'static str, 
-  	pub api_key									: &'static str, 
-  	pub password								: &'static str, 
-  	pub authority								: &'static str, 
-  	pub password_reset_key			: &'static str,
-  	pub password_reset_sent_at	: &'static str,   
+  	pub first_name							: String,
+  	pub last_name								: String,
+  	pub phone										: String,
+  	pub email										: String, 
+  	pub api_key									: String, 
+  	pub password								: String, 
+  	pub authority								: String, 
+  	pub password_reset_key			: String,
+  	pub password_reset_sent_at	: String,   
 }
 
 impl Account {
 
-	pub fn create(&self, options: String) -> Result<String, Error> {
+	pub fn create(&self, options: String) -> Result<String, MegError> {
 		println!("Account create Entry...");					
 		println!("Account --------- {:?}", self);
     
     // you can access struct values using self.first_name
 		let body = json::encode(&self).unwrap();
 		self.post("/accounts/content".to_string(), body.as_bytes(), options)		
-	}
-
-  pub fn failure(&self) -> Result<Success, Error> {
-   	if 1 == 1 {
-   		return Err(Error::NotOkResponse);
-  	} else {
-   		return Ok(Success::Success);
-  	}
-	}
+	} 
 
 }
 
@@ -41,7 +33,7 @@ impl Account {
 impl Api for Account {
     // Replace `Self` with the implementor type: `Account`
     fn new() -> Account {       
-        Account { first_name: "", last_name: "", phone: "", email: "", api_key: "", password: "", authority: "", password_reset_key: "", password_reset_sent_at: "" }
+        Account { first_name: "".to_string(), last_name: "".to_string(), phone: "".to_string(), email: "".to_string(), api_key: "".to_string(), password: "".to_string(), authority: "".to_string(), password_reset_key: "".to_string(), password_reset_sent_at: "".to_string() }
     }
 
 }

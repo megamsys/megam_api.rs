@@ -1,13 +1,50 @@
+use megam_api::api::Api;
 use megam_api::util::accounts::Account;
-use megam_api::util::accounts::Success;
-use hamcrest::assert_that;
+use rustc_serialize::json;
+use megam_api::api::Options;
+
+//#[test]
+fn create() {
+    // create hashmap for api settings
+    let options = Options {
+    Email: "c@b.com".to_string(),
+    Apikey: "firsttest".to_string(),
+    Host: "http://localhost:9000".to_string(),
+    Version: "/v2".to_string(),
+    };
+
+     println!("{:?}", json::encode(&options).unwrap());
+
+    let mut a = Account::new();		
+   
+    //assign the values for struct Account
+    a.first_name = "raj".to_string();
+    a.phone = "97948698".to_string();
+		a.email = "c@b.com".to_string();
+		a.api_key = "firsttest".to_string();
+
+     match a.create(json::encode(&options).unwrap()) {
+        Ok(n) => println!("result: Is OK: {:?}", n),
+        Err(FailOne) => println!("result: Failed One: {:?}", FailOne),
+    }
+}
 
 #[test]
-fn create() {
-    let mut p = Account{first_name: format!("{}", "rr"),	last_name: format!("{}", ""), phone: format!("{}", ""), email: format!("{}", "b@test.com"), api_key: format!("{}", "testapikey"), password: format!("{}", "testpassword"),	authority: format!("{}", ""), password_reset_key: format!("{}", ""), password_reset_sent_at: format!("{}", "")};
-		//p.create();
-   // assert_that(p.create(), execs().with_status(0));
-    //assert_that(p.create(), Ok(Success::Success));
-     //assert_that(p.create(), is(Ok(Success::Success)));
-     //assert!(p.create().is_err());
+fn show() {
+		// create hashmap for api settings
+    let options = Options {
+    Email: "c@b.com".to_string(),
+    Apikey: "firsttest".to_string(),
+    Host: "http://localhost:9000".to_string(),
+    Version: "/v2".to_string(),
+    };
+
+     println!("{:?}", json::encode(&options).unwrap());
+
+    let mut a = Account::new();		
+
+   	 match a.show(json::encode(&options).unwrap()) {
+        Ok(n) => println!("result: Is OK: {:?}", n),
+        Err(FailOne) => println!("result: Failed One: {:?}", FailOne),
+    }
 }

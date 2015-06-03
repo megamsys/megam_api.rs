@@ -26,4 +26,5 @@ macro_rules! test {
 }
 
 //mod test_accounts;
-mod test_sshkeys;
+//mod test_sshkeys;
+mod test_csars;

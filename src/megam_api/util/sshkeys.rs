@@ -1,14 +1,16 @@
 use api::Api;
 use api::MegError;
-use api::MegResponse;
 use std::vec::Vec;
 use rustc_serialize::json;
 
 #[derive(Debug, RustcEncodable, RustcDecodable)]
 pub struct SSHKey {
+		pub id											: String,
    	pub name										: String, 
    	pub accounts_id   					: String, 
    	pub path				  					: String,	
+		pub created_at							: String,
+    pub json_claz								: String,
 }
 
 #[derive(Debug, RustcEncodable, RustcDecodable)]
@@ -32,10 +34,15 @@ impl SSHKey {
 impl Api for SSHKey {
     // Replace `Self` with the implementor type: `Account`
     fn new() -> SSHKey {
-        SSHKey { name: "".to_string(), accounts_id: "".to_string(), path: "".to_string() }
-			
-    }
-   
+        SSHKey { 
+									id								: "".to_string(), 
+									name							: "".to_string(), 
+									accounts_id				: "".to_string(), 
+									path							: "".to_string(),
+									created_at				: "".to_string(), 
+									json_claz					: "".to_string(), 
+								}			
+    }   
 }
 
 fn parser(result: Result<String, MegError>) -> Result<Vec<SSHKey>, MegError> {

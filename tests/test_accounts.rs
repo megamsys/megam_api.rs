@@ -3,7 +3,7 @@ use megam_api::util::accounts::Account;
 use rustc_serialize::json;
 use megam_api::api::Options;
 
-#[test]
+//#[test]
 fn create() {
     // create hashmap for api settings
     let options = Options {
@@ -24,6 +24,26 @@ fn create() {
 		a.api_key = "firsttest".to_string();
 
      match a.create(json::encode(&options).unwrap()) {
+        Ok(n) => println!("result: Is OK: {:?}", n),
+        Err(FailOne) => println!("result: Failed One: {:?}", FailOne),
+    }
+}
+
+#[test]
+fn show() {
+		// create hashmap for api settings
+    let options = Options {
+    Email: "c@b.com".to_string(),
+    Apikey: "firsttest".to_string(),
+    Host: "http://localhost:9000".to_string(),
+    Version: "/v2".to_string(),
+    };
+
+     println!("{:?}", json::encode(&options).unwrap());
+
+    let mut a = Account::new();		
+
+   	 match a.show(json::encode(&options).unwrap()) {
         Ok(n) => println!("result: Is OK: {:?}", n),
         Err(FailOne) => println!("result: Failed One: {:?}", FailOne),
     }

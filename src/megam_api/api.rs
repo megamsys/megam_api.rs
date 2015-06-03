@@ -4,7 +4,7 @@ use curl::http::handle::Method::{Post, Get};
 use curl::http::handle::{Method, Request};
 use rustc_serialize::json;
 use std::result;
-use std::{str, fmt};
+use std::{str};
 use rustc_serialize::base64::{STANDARD, ToBase64};
 use crypto::digest::Digest;
 use crypto::md5::Md5;
@@ -28,21 +28,11 @@ impl MegError {
         MegError { code: err.code, msg: err.msg, more: err.more }
     }
 
-    pub fn enew() -> MegError {
-        MegError { code: 0, msg: "".to_string(), more: "".to_string() }
+    pub fn msg(msg: String) -> MegError {
+        MegError { code: 500, msg: msg, more: "".to_string() }
     }
 }
 
-impl Error for MegError {
-    fn description(&self) -> &str { self.description() }
-    fn cause(&self) -> Option<&Error> { self.cause() }
-}
-
-impl fmt::Display for MegError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        fmt::Display::fmt(&self, f)
-    }
-}
 
 #[derive(Debug)]
 pub enum CurlError {
@@ -99,7 +89,7 @@ pub trait Api {
 															.uri(format!("{}{}{}", api_options.Host, api_options.Version, path))
                               .header("Accept", "application/json")
 															.header("X-Megam-DATE", &current_date)
-															.header("X-Megam-HMAC", &self.encode_header(format!("{}{}", api_options.Version, path), api_options.Email, api_options.Apikey))
+															.header("X-Megam-HMAC", &self.encode_header(format!("{}{}", api_options.Version, path), api_options.Email, api_options.Apikey, body))
                               .content_type("application/json");
         
         match body {
@@ -110,8 +100,12 @@ pub trait Api {
 		 handle(req.exec())
  		}
     
-    fn encode_header(&self, path: String, email: String, api_key: String) -> String {
-				let input = "";
+    fn encode_header(&self, path: String, email: String, api_key: String, body: Option<&[u8]>) -> String {
+				let mut input = "";
+        match body {
+            Some(b) => input = &str::from_utf8(b).unwrap(),
+            None => {}
+        }		
 				let mut digest = Md5::new();
     		digest.input_str(input);
 
@@ -127,10 +121,7 @@ pub trait Api {
         println!("HMAC digest: {}", out.result().code().to_hex());
         format!("{}:{}", email, out.result().code().to_hex()).to_string()
     }
-
 }
-
-
 
 fn handle(response: result::Result<http::Response, curl::ErrCode>) -> Result<String, MegError> {
    match response {
@@ -144,8 +135,7 @@ fn handle(response: result::Result<http::Response, curl::ErrCode>) -> Result<Str
     			}
   	 },
    result::Result::Err(err) => {
-       println!("eror");
-       return Err(MegError::enew());
+       return Err(MegError::msg(err.to_string()));
     },
  	}
 	}

@@ -27,17 +27,17 @@ impl Csar {
 	//						 version: String,  //optional
 	//
 	pub fn create(&self, options: String) -> Result<String, MegError> {
-		println!("Csar create Entry...");		    
+	//	println!("Csar create Entry...");		    
 		self.post("/csars/content".to_string(), self.desc.as_bytes(), options)		
 	} 
 
   pub fn list(&self, options: String) -> Result<Vec<Csar>, MegError> {
-   println!("Csar list ==>");
+  // println!("Csar list ==>");
    parser(self.get("/csars".to_string(), options))  
   }
 
   pub fn push(&self, options: String, id: String) -> Result<String, MegError> {
- 		println!("Csar launch process started...");
+ 	//	println!("Csar launch process started...");
 		self.get(format!("{}{}", "/csars/push/", id), options)
  }
   

@@ -22,8 +22,8 @@ pub struct SSHKeyResponse {
 impl SSHKey {	
 
  pub fn list(&self, options: String) -> Result<Vec<SSHKey>, MegError> {
-		println!("SSHKey list Entry...");					
-		println!("SSHKey --------- {:?}", self);    
+	//	println!("SSHKey list Entry...");					
+	//	println!("SSHKey --------- {:?}", self);    
 		
 		parser(self.get("/sshkeys".to_string(), options))    
  }

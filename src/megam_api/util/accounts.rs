@@ -36,8 +36,8 @@ impl Account {
 	//						 version: String,  //optional
 	//
 	pub fn create(&self, options: String) -> Result<String, MegError> {
-		println!("Account create Entry...");					
-		println!("Account --------- {:?}", self);
+	//	println!("Account create Entry...");					
+	//	println!("Account --------- {:?}", self);
     
     // you can access struct values using self.first_name
 		let body = json::encode(&self).unwrap();
@@ -46,7 +46,7 @@ impl Account {
   
   //show the particular account details 
   pub fn show(&self, options: String) -> Result<Account, MegError> {
-    println!("Account show procees started...");
+   // println!("Account show procees started...");
 		let api_options = json::decode::<Options>(&options).unwrap();
     parser(self.get(format!("{}{}", "/accounts/", api_options.Email), options)) 
   } 

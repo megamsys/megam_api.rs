@@ -118,7 +118,7 @@ pub trait Api {
 
 				let mut out = Hmac::new(Sha1::new(), api_key.as_bytes());
 				out.input(data.as_bytes());			
-        println!("HMAC digest: {}", out.result().code().to_hex());
+      //  println!("HMAC digest: {}", out.result().code().to_hex());
         format!("{}:{}", email, out.result().code().to_hex()).to_string()
     }
 }
@@ -126,7 +126,7 @@ pub trait Api {
 fn handle(response: result::Result<http::Response, curl::ErrCode>) -> Result<String, MegError> {
    match response {
     result::Result::Ok(res) => {
-   			 println!("{}", res);
+   			// println!("{}", res);
     			match res.get_code() {
         		200  => return Ok(str::from_utf8(res.get_body()).unwrap().to_string()),
 						201  => return Ok(str::from_utf8(res.get_body()).unwrap().to_string()),

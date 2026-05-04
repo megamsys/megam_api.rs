@@ -2,12 +2,12 @@
 
 megam_api is a rust lang interface to megam.io.
 
-Learn more at http://docs.megam.io/v1.0/docs/megam_quick_launch
+Learn more at https://megam.io/v1.0/docs/megam_quick_launch
 
 
 ## Using this crate
 
-We will write a [devcenter](http://devcenter.megam.io) article next week.
+We will write a [devcenter](https://megam.io) article next week.
 
 
 
